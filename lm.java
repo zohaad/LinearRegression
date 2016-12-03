@@ -15,6 +15,11 @@ public class lm {
         }
 
         int m = pointArray.length; // number of training examples
+        double alpha = 0.0005; // learning rate
+        Line regressLine = fit(pointArray, alpha, m);
+
+        System.out.println(regressLine.toString());
+
         
         //return line
         //print line
@@ -43,4 +48,21 @@ public class lm {
 
             return csvArray;
     }     
+
+    public static Line fit(Point[] pointArray, double alpha, int m) {
+        // make first line
+        Line myLine = new Line(pointArray[0], pointArray[(int)(Math.random()*m)]); // yolo 
+        while (pointArray[0].getx() == pointArray[(int)(Math.random() * m)].getx()) {
+            myLine = new Line(pointArray[0], pointArray[(int)(Math.random()*m)]); // yolo 
+        }
+
+        // error margin: 0.001
+        while (Cost.derivative_0(pointArray, myLine) > 0.00001 && Cost.derivative_1(pointArray, myLine) > 0.00001) {
+            double theta_0 = myLine.getSlope() - alpha * Cost.derivative_0(pointArray, myLine);
+            double theta_1 = myLine.getIntercept() - alpha * Cost.derivative_1(pointArray, myLine);
+            myLine = new Line(theta_0, theta_1);
+        }
+
+        return myLine;
+    }
 }
