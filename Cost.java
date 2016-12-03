@@ -6,7 +6,6 @@ interface Cost {
         for (int i = 0; i < m; i++){
             SSE += Math.pow((hypothesis.evaluate(pointArray[i].getx()) - pointArray[i].gety()), 2);
         }
-        SSE = SSE/(2 * m);
         return SSE;
     }
 

@@ -15,15 +15,18 @@ public class lm {
         }
 
         int m = pointArray.length; // number of training examples
-        double alpha = 0.0000005; // learning rate
+        double alpha = 0.01; // learning rate
+
+        //return line
         Line regressLine = fit(pointArray, alpha, m);
 
+        //print line
         System.out.println(regressLine.toString());
 
-        
-        //return line
-        //print line
         //print SSE ()
+        System.out.println("RSS = " + Cost.fn(pointArray, regressLine));
+
+        
     }
 
     // reads CSV, makes Point array
@@ -51,18 +54,20 @@ public class lm {
 
     public static Line fit(Point[] pointArray, double alpha, int m) {
         // make first line
-        Line myLine = new Line(pointArray[0], pointArray[(int)(Math.random()*m)]); // yolo 
-        while (pointArray[0].getx() == pointArray[(int)(Math.random() * m)].getx()) {
-            myLine = new Line(pointArray[0], pointArray[(int)(Math.random()*m)]); // yolo 
-        }
+        Line myLine = new Line(pointArray[0], pointArray[m - 1]); // yolo 
 
         // error margin: 0.001
-        while (Cost.derivative_0(pointArray, myLine) > 0.00001 && Cost.derivative_1(pointArray, myLine) > 0.00001) {
-            double theta_0 = myLine.getIntercept() - alpha * Cost.derivative_0(pointArray, myLine);
-            double theta_1 = myLine.getSlope() - alpha * Cost.derivative_1(pointArray, myLine);
-            myLine = new Line(theta_0, theta_1);
+        double error = 0.0000001;
+        double theta_0;
+        double theta_1;
+        while (Cost.derivative_0(pointArray, myLine) > error && Cost.derivative_1(pointArray, myLine) > error) {
+            theta_0 = myLine.getIntercept() - alpha * Cost.derivative_0(pointArray, myLine);
+            theta_1 = myLine.getSlope() - alpha * Cost.derivative_1(pointArray, myLine);
+            myLine = new Line(theta_1, theta_0);
+
         }
 
+        System.out.println("derivative_0: " + Cost.derivative_0(pointArray, myLine) + ", derivative_1: " + Cost.derivative_1(pointArray, myLine));
         return myLine;
     }
 }
