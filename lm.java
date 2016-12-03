@@ -15,7 +15,7 @@ public class lm {
         }
 
         int m = pointArray.length; // number of training examples
-        double alpha = 0.0005; // learning rate
+        double alpha = 0.0000005; // learning rate
         Line regressLine = fit(pointArray, alpha, m);
 
         System.out.println(regressLine.toString());
@@ -58,8 +58,8 @@ public class lm {
 
         // error margin: 0.001
         while (Cost.derivative_0(pointArray, myLine) > 0.00001 && Cost.derivative_1(pointArray, myLine) > 0.00001) {
-            double theta_0 = myLine.getSlope() - alpha * Cost.derivative_0(pointArray, myLine);
-            double theta_1 = myLine.getIntercept() - alpha * Cost.derivative_1(pointArray, myLine);
+            double theta_0 = myLine.getIntercept() - alpha * Cost.derivative_0(pointArray, myLine);
+            double theta_1 = myLine.getSlope() - alpha * Cost.derivative_1(pointArray, myLine);
             myLine = new Line(theta_0, theta_1);
         }
 
