@@ -1,12 +1,28 @@
 interface Cost {
     public static double fn(Point[] pointArray, Line hypothesis) {
         int m = pointArray.length;
-        double SSE = 0.0;
+        double RSS = 0.0;
 
         for (int i = 0; i < m; i++){
-            SSE += Math.pow((hypothesis.evaluate(pointArray[i].getx()) - pointArray[i].gety()), 2);
+            RSS += Math.pow((hypothesis.evaluate(pointArray[i].getx()) - pointArray[i].gety()), 2);
         }
-        return SSE;
+        return RSS; // SSE
+    }
+
+    public static double r_sq(Point [] pointArray, double RSS) {
+        int m = pointArray.length;
+        double TSS = 0.0;
+        double avg = 0.0;
+
+        for (int i = 0; i < m; i++) {
+            avg += pointArray[i].gety() / m;
+        }
+
+        for (int i = 0; i < m; i++) {
+            TSS += Math.pow((pointArray[i].gety() - avg), 2);
+        }
+
+        return 1 - (RSS/TSS);
     }
 
     public static double derivative_0(Point[] pointArray, Line hypothesis) {

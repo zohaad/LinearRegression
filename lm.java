@@ -15,7 +15,7 @@ public class lm {
         }
 
         int m = pointArray.length; // number of training examples
-        double alpha = 0.01; // learning rate
+        double alpha = 0.0001; // learning rate
 
         //return line
         Line regressLine = fit(pointArray, alpha, m);
@@ -24,7 +24,11 @@ public class lm {
         System.out.println(regressLine.toString());
 
         //print SSE ()
-        System.out.println("RSS = " + Cost.fn(pointArray, regressLine));
+        double RSS = Cost.fn(pointArray, regressLine);
+        System.out.println("RSS = " + RSS);
+
+        //print r_sq
+        System.out.println("R^2 = " + Cost.r_sq(pointArray, RSS));
 
         
     }
@@ -57,7 +61,7 @@ public class lm {
         Line myLine = new Line(pointArray[0], pointArray[m - 1]); // yolo 
 
         // error margin: 0.001
-        double error = 0.0000001;
+        double error = 0.000001;
         double theta_0;
         double theta_1;
         while (Cost.derivative_0(pointArray, myLine) > error && Cost.derivative_1(pointArray, myLine) > error) {
